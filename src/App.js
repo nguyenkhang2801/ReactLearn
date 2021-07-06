@@ -1,10 +1,11 @@
 import React from 'react';
 import './App.scss';
+import ColorBox from './components/ColorBox';
 
 function App() {
   return (
     <div className="App">
-      <h1>hahaha</h1>
+      <ColorBox />
 
     </div>
   );
