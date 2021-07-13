@@ -113,8 +113,11 @@ function Form() {
         setCheck(!checkSubmit || !!errors.username || !!errors.lastname
             || !!errors.select || !!errors.gender || !!errors.email
             || !!errors.phone || !!errors.password || !!errors.confirm);
-        //console log kết quả
-        console.log("hidden = ", check);
+        // console log kết quả
+        // check lúc này vẫn chưa được cập nhập, nhưng vì cần sửa dụng !check nên để như thế
+        console.log("check =", check);
+        // In ra errors để check
+        console.log(errors);
 
     }, [checkSubmit, errors.username, errors.lastname, errors.select, errors.gender,
         errors.email, errors.phone, errors.password, errors.confirm])
