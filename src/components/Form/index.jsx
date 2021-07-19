@@ -1,13 +1,10 @@
 import { Button, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
-import { useEffect } from 'react';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { Link, Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { addDataSignin } from '../../actions/signin';
-import store from '../../store';
 import InputPassword from './InputPass';
 import InputText from './InputText';
 import RadioForm from './RadioForm';
@@ -129,7 +126,7 @@ function Form({ onCheck }) {
           required={{
             required: 'This field is required',
             pattern: {
-              value: /^[a-zA-Z0-9._\-]+@vinova.com.vn$/,
+              value: /^[a-zA-Z0-9._-]+@vinova.com.vn$/,
               message: 'Invalid email address'
             }
           }}

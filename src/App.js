@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   BrowserRouter as Router, Redirect, Route, Switch
 } from "react-router-dom";
 import './App.scss';
 import Dashboard from './pages/Dashboard';
 import SignIn from './pages/SignIn';
-import store from './store';
 
 function App() {
   const [check, setCheck] = useState(false);
