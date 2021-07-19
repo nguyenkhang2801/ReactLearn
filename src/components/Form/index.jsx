@@ -46,7 +46,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function Form({ onCheck }) {
+function Form() {
   const classes = useStyles();
 
   // định hướng trang sang địa chỉ khác
@@ -69,13 +69,12 @@ function Form({ onCheck }) {
   ];
 
   const handleClickSubmit = (e) => {
-    const data = { ...e, id: 1 };
+    const data = { ...e, id: 1, auth: true };
     const setData = async () => {
       await dispatch(addDataSignin(data));
     }
     setData();
     console.log("ok");
-    onCheck(true);
     history.push("/dashboard");
   }
 

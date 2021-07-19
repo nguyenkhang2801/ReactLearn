@@ -5,10 +5,10 @@ SignIn.propTypes = {
 
 };
 
-function SignIn({ onCheck }) {
+function SignIn(props) {
   return (
     <div>
-      <Form onCheck={onCheck} />
+      <Form />
     </div>
   );
 }

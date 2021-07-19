@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import {
   BrowserRouter as Router, Redirect, Route, Switch
 } from "react-router-dom";
@@ -7,11 +8,8 @@ import Dashboard from './pages/Dashboard';
 import SignIn from './pages/SignIn';
 
 function App() {
-  const [check, setCheck] = useState(false);
 
-  const handleCheck = (e) => {
-    setCheck(e);
-  }
+  const isLogin = useSelector(state => state.signin.auth);
 
   return (
     <div className="App">
@@ -20,10 +18,10 @@ function App() {
 
           <Switch>
             <Route exact path="/sign-in">
-              <SignIn onCheck={handleCheck} />
+              <SignIn />
             </Route>
             <Route exact path="/dashboard">
-              {check ? <Dashboard /> : <Redirect to="/sign-in" />}
+              {isLogin ? <Dashboard /> : <Redirect to="/sign-in" />}
             </Route>
             <Route exact path="/">
               <Redirect to="/sign-in" />
