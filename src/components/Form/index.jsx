@@ -1,7 +1,13 @@
-import { Button, Grid, Typography } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { Link, Redirect, useHistory } from 'react-router-dom';
+import { addDataSignin } from '../../actions/signin';
+import store from '../../store';
 import InputPassword from './InputPass';
 import InputText from './InputText';
 import RadioForm from './RadioForm';
@@ -41,22 +47,15 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'space-between',
     display: 'flex',
   },
-  content: {
-    paddingLeft: '10px',
-    color: 'gray',
-  }
 }));
 
-function Form() {
+function Form({ onCheck }) {
   const classes = useStyles();
-  // check phím submit
-  const [checkSubmit, setCheckSubmit] = useState(false);
 
-  // Show DATA SUBMIT
-  const [check, setCheck] = useState();
+  // định hướng trang sang địa chỉ khác
+  const history = useHistory();
 
-  // Data Form 
-  const [data, setData] = useState({});
+  const dispatch = useDispatch();
 
   const { watch, register, handleSubmit, formState: { errors }, setError, clearErrors } = useForm();
 
@@ -73,42 +72,27 @@ function Form() {
   ];
 
   const handleClickSubmit = (e) => {
-    setData(e);
+    const data = { ...e, id: 1 };
+    const setData = async () => {
+      await dispatch(addDataSignin(data));
+    }
+    setData();
+    console.log("ok");
+    onCheck(true);
+    history.push("/dashboard");
   }
 
   const submit = () => {
-    if (!checkSubmit)
-      setCheckSubmit(true);
-    // console log kết quả
-    console.log("check =", !check);
     // In ra errors để check
     console.log("errors", errors);
   }
-
-  useEffect(() => {
-    const newCheck = !checkSubmit || !!errors.username || !!errors.lastname
-      || !!errors.select || !!errors.gender || !!errors.email
-      || !!errors.phone || !!errors.password || !!errors.confirm
-    setCheck(newCheck);
-    // nếu xảy ra bất kỳ 1 lỗi sẽ không hiện data, cho đến khi data đúng và bấm lại Submit
-    if (newCheck)
-      setCheckSubmit(false);
-  }, [checkSubmit, errors.username, errors.lastname, errors.select, errors.gender,
-    errors.email, errors.phone, errors.password, errors.confirm])
-
-  // check Data
-  useEffect(() => {
-    console.log("Data", data);
-  }, [data])
 
   return (
     <div id="form" className={classes.root}>
       <form name="myform" className={classes.form} onSubmit={handleSubmit(handleClickSubmit)}>
         <div className={classes.header}>SIGN UP</div>
         <InputText
-          name="username"
-          label="First Name"
-          register={register}
+          name="username" label="First Name" register={register}
           required={{
             required: 'This field is required',
           }}
@@ -116,9 +100,7 @@ function Form() {
         />
 
         <InputText
-          name="lastname"
-          label="Last Name"
-          register={register}
+          name="lastname" label="Last Name" register={register}
           required={{
             required: 'This field is required',
           }}
@@ -127,10 +109,7 @@ function Form() {
         <Grid className={classes.grid}>
 
           <SelectForm
-            name="select"
-            label="Hobby"
-            value={select}
-            register={register}
+            name="select" label="Hobby" value={select} register={register}
             required={{
               required: 'This field is required',
             }}
@@ -138,10 +117,7 @@ function Form() {
           />
 
           <RadioForm
-            name="gender"
-            label="Gender"
-            value={gender}
-            register={register}
+            name="gender" label="Gender" value={gender} register={register}
             required={{
               required: 'This field is required',
             }}
@@ -149,9 +125,7 @@ function Form() {
           />
         </Grid>
         <InputText
-          name="email"
-          label="Email"
-          register={register}
+          name="email" label="Email" register={register}
           required={{
             required: 'This field is required',
             pattern: {
@@ -162,9 +136,7 @@ function Form() {
           error={errors.email}
         />
         <InputText
-          name="phone"
-          label="Phone Number"
-          register={register}
+          name="phone" label="Phone Number" register={register}
           required={{
             required: 'This field is required',
             pattern: {
@@ -175,9 +147,7 @@ function Form() {
           error={errors.phone}
         />
         <InputPassword
-          name="password"
-          label="Password"
-          register={register}
+          name="password" label="Password" register={register}
           required={{
             required: 'This field is required',
             validate: {
@@ -193,9 +163,7 @@ function Form() {
           error={errors.password}
         />
         <InputPassword
-          name="confirm"
-          label="Confirm Password"
-          register={register}
+          name="confirm" label="Confirm Password" register={register}
           required={{
             required: 'This field is required',
             validate: {
@@ -206,65 +174,11 @@ function Form() {
           }}
           error={errors.confirm}
         />
-        <Button className={classes.submit} type="submit" onClick={submit}>Submit</Button>
 
-        <br />
-        <br />
-        <div hidden={check}>
-          <Typography style={{
-            textAlign: 'center',
-            fontSize: '20px',
-            fontWeight: 'bold',
-          }} >DATA SUBMIT</Typography>
-          <Typography>
-            First Name:
-            <span className={classes.content}>
-              {watch('username')}
-            </span>
-          </Typography>
-          <Typography>
-            Last Name:
-            <span className={classes.content}>
-              {watch('lastname')}
-            </span>
-          </Typography>
-          <Typography>
-            Hobby:
-            <span className={classes.content}>
-              {watch('select')}
-            </span>
-          </Typography>
-          <Typography>
-            Gender:
-            <span className={classes.content}>
-              {watch('gender')}
-            </span>
-          </Typography>
-          <Typography>
-            Email:
-            <span className={classes.content}>
-              {watch('email')}
-            </span>
-          </Typography>
-          <Typography>
-            Phone:
-            <span className={classes.content}>
-              {watch('phone')}
-            </span>
-          </Typography>
-          <Typography>
-            Password:
-            <span className={classes.content}>
-              {watch('password')}
-            </span>
-          </Typography>
-          <Typography>
-            Confirm Password:
-            <span className={classes.content}>
-              {watch('confirm')}
-            </span>
-          </Typography>
-        </div>
+        <Button className={classes.submit} type="submit" onClick={submit}>
+          Submit
+        </Button>
+
       </form>
 
     </div>

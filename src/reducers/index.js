@@ -1,10 +1,10 @@
-import hobbyReducer from "./hobby";
+
 import { combineReducers } from "redux";
-import userReducer from "./user";
+import signInReducer from "./signin";
+
 
 const rootReducer = combineReducers({
-    hobby: hobbyReducer,
-    user: userReducer,
+    signin: signInReducer,
 });
 
 export default rootReducer;

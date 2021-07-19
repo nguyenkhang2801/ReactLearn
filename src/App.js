@@ -1,22 +1,37 @@
-import { render } from '@testing-library/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import {
+  BrowserRouter as Router, Redirect, Route, Switch
+} from "react-router-dom";
 import './App.scss';
-import Form from './components/Form';
-import Test from './components/Test';
-import HomePage from './pages/HomePage';
+import Dashboard from './pages/Dashboard';
+import SignIn from './pages/SignIn';
+import store from './store';
 
 function App() {
-  const [color, setColor] = useState("black");
+  const [check, setCheck] = useState(false);
 
-  function click(dulieu) {
-    console.log("click");
-    setColor(dulieu);
+  const handleCheck = (e) => {
+    setCheck(e);
   }
 
   return (
     <div className="App">
-      {console.log('renderapp')}
-      <Test color={color} func={click} />
+      <Router>
+        <div>
+
+          <Switch>
+            <Route exact path="/sign-in">
+              <SignIn onCheck={handleCheck} />
+            </Route>
+            <Route exact path="/dashboard">
+              {check ? <Dashboard /> : <Redirect to="/sign-in" />}
+            </Route>
+            <Route exact path="/">
+              <Redirect to="/sign-in" />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
     </div>
   );
 }
