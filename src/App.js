@@ -6,10 +6,11 @@ import {
 import './App.scss';
 import Dashboard from './pages/Dashboard';
 import SignIn from './pages/SignIn';
+import PrivateRoute from './routers/PrivateRoute';
 
 function App() {
 
-  const isLogin = useSelector(state => state.signin.auth);
+  const isLogin = useSelector(state => state.auth);
 
   return (
     <div className="App">
@@ -17,12 +18,8 @@ function App() {
         <div>
 
           <Switch>
-            <Route exact path="/sign-in">
-              <SignIn />
-            </Route>
-            <Route exact path="/dashboard">
-              {isLogin ? <Dashboard /> : <Redirect to="/sign-in" />}
-            </Route>
+            <Route exact path="/sign-in" component={SignIn} />
+            <PrivateRoute exact path="/dashboard" component={Dashboard} isLogged={isLogin} />
             <Route exact path="/">
               <Redirect to="/sign-in" />
             </Route>

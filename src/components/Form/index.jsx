@@ -69,12 +69,15 @@ function Form() {
   ];
 
   const handleClickSubmit = (e) => {
-    const data = { ...e, id: 1, auth: true };
+    const data = { ...e, id: 1 };
     const setData = async () => {
       await dispatch(addDataSignin(data));
     }
     setData();
-    console.log("ok");
+    dispatch({
+      type: "AUTHEN_SUCCESS",
+    });
+
     history.push("/dashboard");
   }
 

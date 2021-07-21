@@ -1,5 +1,6 @@
-import { makeStyles, Typography } from '@material-ui/core';
+import { Button, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import store from '../store';
 
 Dashboard.propTypes = {
@@ -25,6 +26,8 @@ const useStyles = makeStyles({
 function Dashboard(props) {
 
   const classes = useStyles();
+
+  const dispatch = useDispatch();
 
   const data = store.getState().signin;
   console.log(data);
@@ -87,6 +90,18 @@ function Dashboard(props) {
           </span>
         </Typography>
       </div>
+
+      <Button
+        size='large'
+        variant='outlined'
+        color='primary'
+        onClick={() => {
+          dispatch({
+            type: "AUTHEN_FAILED"
+          })
+        }}>
+        Logout
+      </Button>
     </div>
   );
 }
