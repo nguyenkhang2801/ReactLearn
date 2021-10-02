@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import { makeStyles, Input, FormControl, InputLabel, InputAdornment, IconButton } from '@material-ui/core';
-import { Visibility, VisibilityOff } from '@material-ui/icons'
+import { FormControl, Input, InputLabel, makeStyles } from '@material-ui/core';
+import React from 'react';
 
-InputPassword.propTypes = {
+InputImage.propTypes = {
 
 };
 
@@ -38,18 +37,8 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-function InputPassword({ name, label, register, error, required }) {
+function InputImage({ name, label, register, error, required }) {
   const classes = useStyles();
-
-  const [show, setShow] = useState(false);
-
-  const handleClickShowPassword = () => {
-    setShow(!show);
-  };
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
 
   return (
     <FormControl className={classes.margin}>
@@ -60,26 +49,15 @@ function InputPassword({ name, label, register, error, required }) {
         classes={{ underline: classes.underline }}
         className={classes.textField}
         name={name}
-        type={show ? 'text' : 'password'}
+        type="file"
         {...register([name].toString(),
           { ...required }
         )}
-        endAdornment={
-          <InputAdornment position="end">
-            <IconButton
-              aria-label="toggle password visibility"
-              onClick={handleClickShowPassword}
-              onMouseDown={handleMouseDownPassword}
-              edge="end"
-            >
-              {show ? <Visibility /> : <VisibilityOff />}
-            </IconButton>
-          </InputAdornment>
-        }
+
       />
       {error && <div className={classes.warning}>{error.message}</div>}
     </FormControl>
   )
 }
 
-export default InputPassword;
+export default InputImage;

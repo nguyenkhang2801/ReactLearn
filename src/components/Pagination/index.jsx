@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 Pagination.propTypes = {
-    pagination: PropTypes.object.isRequired,
+    page: PropTypes.object.isRequired,
+    totalPages: PropTypes.number.isRequired,
     onPageChange: PropTypes.func,
 };
 
@@ -11,9 +12,9 @@ Pagination.defaultProps = {
 }
 
 function Pagination(props) {
-    const { pagination, onPageChange } = props;
-    const { _page, _limit, _totalRows } = pagination;
-    const totalpages = Math.ceil(_totalRows / _limit);
+    const { page, onPageChange, totalPages } = props;
+    const { _page, _limit } = page;
+    const totalpages = Math.ceil(totalPages / _limit);
 
     function handlePageChange(newpage) {
         if (onPageChange) {

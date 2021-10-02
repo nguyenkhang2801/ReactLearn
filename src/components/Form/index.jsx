@@ -1,14 +1,12 @@
-import { Button, Grid } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { addDataSignin } from '../../actions/signin';
-import InputPassword from './InputPass';
+import InputImage from './InputImage';
 import InputText from './InputText';
-import RadioForm from './RadioForm';
-import SelectForm from './Select';
 const useStyles = makeStyles(() => ({
   root: {
     justifyContent: 'center',
@@ -56,18 +54,6 @@ function Form() {
 
   const { watch, register, handleSubmit, formState: { errors }, setError, clearErrors } = useForm();
 
-  const select = [
-    { id: 1, title: "Listen to music" },
-    { id: 2, title: "Read book" },
-    { id: 3, title: "Watch TV" },
-    { id: 4, title: "Others" }
-  ];
-
-  const gender = [
-    { id: 1, title: "Female" },
-    { id: 2, title: "Male" }
-  ];
-
   const handleClickSubmit = (e) => {
     const data = { ...e, id: 1 };
     const setData = async () => {
@@ -78,7 +64,7 @@ function Form() {
       type: "AUTHEN_SUCCESS",
     });
 
-    history.push("/dashboard");
+    console.log(data);
   }
 
   const submit = () => {
@@ -105,73 +91,15 @@ function Form() {
           }}
           error={errors.lastname}
         />
-        <Grid className={classes.grid}>
 
-          <SelectForm
-            name="select" label="Hobby" value={select} register={register}
-            required={{
-              required: 'This field is required',
-            }}
-            error={errors.select}
-          />
-
-          <RadioForm
-            name="gender" label="Gender" value={gender} register={register}
-            required={{
-              required: 'This field is required',
-            }}
-            error={errors.gender}
-          />
-        </Grid>
-        <InputText
-          name="email" label="Email" register={register}
+        <InputImage
+          name="image"
+          label="Image"
+          register={register}
           required={{
             required: 'This field is required',
-            pattern: {
-              value: /^[a-zA-Z0-9._-]+@vinova.com.vn$/,
-              message: 'Invalid email address'
-            }
           }}
-          error={errors.email}
-        />
-        <InputText
-          name="phone" label="Phone Number" register={register}
-          required={{
-            required: 'This field is required',
-            pattern: {
-              value: /^[0-9]+$/,
-              message: "Phone Number must be a number"
-            }
-          }}
-          error={errors.phone}
-        />
-        <InputPassword
-          name="password" label="Password" register={register}
-          required={{
-            required: 'This field is required',
-            validate: {
-              sameConf: (x) =>
-                x !== watch("confirm")
-                  ? setError("confirm", {
-                    type: "manual",
-                    message: "Confirm Password must be same as password"
-                  })
-                  : clearErrors("confirm")
-            }
-          }}
-          error={errors.password}
-        />
-        <InputPassword
-          name="confirm" label="Confirm Password" register={register}
-          required={{
-            required: 'This field is required',
-            validate: {
-              samePass: (x) =>
-                x === watch("password")
-                || "Confirm Password must be same as password"
-            }
-          }}
-          error={errors.confirm}
+          error={errors.image}
         />
 
         <Button className={classes.submit} type="submit" onClick={submit}>
@@ -179,6 +107,10 @@ function Form() {
         </Button>
 
       </form>
+
+      <div>
+        <img src={watch('image')} alt="" />
+      </div>
 
     </div>
   );
